@@ -19,41 +19,41 @@
 ### 安裝Python依賴
 所需的Python庫包括Quart、quart-cors、aiohttp和BeautifulSoup。安裝指令如下：
 
-\```bash
+```bash
 pip install quart quart-cors aiohttp beautifulsoup4
-\```
+```
 
 ### 安裝前端依賴
 前端採用Vue 3和Vuetify，透過以下指令安裝依賴：
 
-\```bash
+```bash
 npm install
-\```
+```
 
 ### Hypercorn伺服器設定
 建議使用Hypercorn作為後端伺服器。安裝Hypercorn的指令：
 
-\```bash
+```bash
 pip install hypercorn
-\```
+```
 
 啟動伺服器：
 
-\```bash
+```bash
 hypercorn your_application:app --reload
-\```
+```
 
 ### 啟動前端開發服務器
 使用以下指令啟動前端開發服務器：
 
-\```bash
+```bash
 npm run dev
-\```
+```
 
 ## 前端設定
 在 `src/pages/Home.vue` 檔案中，將 `/api` 路徑替換為您的後端伺服器地址。示例代碼：
 
-\```javascript
+```javascript
 const onSubmit = async () => {
     loading.value = true;
 
@@ -69,7 +69,7 @@ const onSubmit = async () => {
         loading.value = false;
     }
 };
-\```
+```
 
 ## 使用方式
 - 啟動後端伺服器：運行Hypercorn指令。
