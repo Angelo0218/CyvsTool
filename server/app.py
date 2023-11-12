@@ -14,8 +14,16 @@ async def fetch(session, url):
 
 async def login(session, url, login_data):
     async with session.post(url, data=login_data) as response:
-        return await response.text()
-
+        text = await response.text()
+        soup = BeautifulSoup(text, 'html.parser')
+        # 假設登入成功後，頁面會包含用戶名字（例如在某個 id 為 'User_Name' 的元素中）
+        user_name_element = soup.find(id='User_Name')
+        if user_name_element and user_name_element.text:
+            # 如果找到含有用戶名的元素，則認為登入成功
+            return text, True
+        else:
+            # 否則認為登入失敗
+            return text, False
 # 定義解析缺勤信息的函數
 async def parse_absence_data(html):
     soup = BeautifulSoup(html, 'html.parser')
@@ -171,10 +179,12 @@ async def login_and_fetch_data():
         login_data['__VIEWSTATE'] = viewstate
         login_data['__EVENTVALIDATION'] = eventvalidation
 
-        login_response = await login(session, login_url, login_data)
-        if "登入失敗" in login_response or "用戶名" in login_response:
-            return jsonify({'error': 'Login failed'}), 401
+        login_response, is_login_successful = await login(session, login_url, login_data)
 
+        if not is_login_successful:
+            # 如果登入不成功，返回錯誤信息
+            return jsonify({'error': 'Login failed'}), 401
+        
         # 登入成功，獲取課表和缺勤信息
         html_schedule = await fetch(session, schedule_url)
         schedule_data = await parse_schedule_data(html_schedule)

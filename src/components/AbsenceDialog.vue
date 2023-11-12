@@ -1,26 +1,23 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="800px">
+    <v-dialog v-model="dialog" persistent max-width="1000px">
         <v-card>
-            <v-card-title>
-                缺曠記錄
-            </v-card-title>
+            <v-card-title class="text-h5 font-weight-black ">缺曠記錄</v-card-title>
             <v-card-text>
-                <vue-good-table :columns="columns" :rows="formattedAbsences" :style-class="tableStyle">
-                    <template v-slot:table-row="props">
-                        <span v-if="props.column.field === 'type'">
-                            <v-chip :color="getColor(props.row.type)" dark>
-                                {{ props.row.type }}
-                            </v-chip>
-                        </span>
-                        <span v-else>
-                            {{ props.row[props.column.field] }}
-                        </span>
-                    </template>
-                </vue-good-table>
+                <div class="absence-grid">
+                    <div v-for="(absenceInfo, courseName) in sortedAbsences" :key="courseName"
+                        class="absence-card elevation-2">
+                        <div class="course-title">{{ courseName }}</div>
+                        <div class="absence-detail">
+                            <div class="absence-count">總缺席節數：{{ totalAbsencesForCourse(absenceInfo) }}</div>
+                            <div v-for="(count, type) in absenceInfo" :key="type" class="absence-chip">
+                                <v-chip :color="getColor(type)" dark>{{ getAbsenceTypeName(type) }}：{{ count }}</v-chip>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -28,13 +25,8 @@
   
 <script>
 import { ref, computed } from 'vue';
-import { VueGoodTable } from 'vue-good-table-next';
-import 'vue-good-table-next/dist/vue-good-table-next.css'
 
 export default {
-    components: {
-        VueGoodTable
-    },
     props: {
         courseAbsences: {
             type: Object,
@@ -43,52 +35,115 @@ export default {
     },
     setup(props) {
         const dialog = ref(false);
-        const columns = [
-            {
-                label: '課程',
-                field: 'course'
-            },
-            {
-                label: '缺勤類型',
-                field: 'type'
-            },
-            {
-                label: '次數',
-                field: 'count'
-            }
-        ];
 
-        const formattedAbsences = computed(() => {
-            const absences = [];
-            for (const course in props.courseAbsences) {
-                for (const type in props.courseAbsences[course]) {
-                    absences.push({
-                        course,
-                        type,
-                        count: props.courseAbsences[course][type]
-                    });
-                }
-            }
-            return absences;
-        });
-
-        const getColor = (type) => {
-            switch (type) {
-                case '事': return 'blue';
-                case '病': return 'green';
-                case '曠': return 'red';
-                default: return 'grey';
-            }
+        const absenceTypes = {
+            '公': '公假',
+            '病': '病假',
+            '喪': '喪假',
+            '事': '事假',
+            '曠': '曠課',
+            '缺': '缺席',
+            '遲': '遲到',
+            '早': '早退',
+            '產': '產前假',
+            '娩': '娩假',
+            '流': '流產假',
+            '育': '育嬰假',
+            '生': '生理假',
+            '陪': '陪產假',
+            '婚': '婚假'
         };
 
-        return { dialog, columns, formattedAbsences, getColor };
+        const colors = {
+            '公': 'orange',
+            '病': 'green',
+            '喪': 'brown',
+            '事': 'blue',
+            '曠': 'red',
+            '缺': 'pink',
+            '遲': 'yellow',
+            '早': 'purple',
+            '產': 'teal',
+            '娩': 'lime',
+            '流': 'blue-grey',
+            '育': 'deep-purple',
+            '生': 'indigo',
+            '陪': 'deep-orange',
+            '婚': 'amber'
+        };
+
+        const getColor = (type) => {
+            return colors[type] || 'grey';
+        };
+
+        const getAbsenceTypeName = (type) => {
+            return absenceTypes[type] || type;
+        };
+
+        const totalAbsencesForCourse = (absenceInfo) => {
+            return Object.values(absenceInfo).reduce((total, count) => total + count, 0);
+        };
+
+        const sortedAbsences = computed(() => {
+            const sorted = {};
+            const courseNames = Object.keys(props.courseAbsences).sort((a, b) => a.localeCompare(b, 'zh-Hant'));
+            for (const courseName of courseNames) {
+                sorted[courseName] = props.courseAbsences[courseName];
+            }
+            return sorted;
+        });
+
+        return {
+            dialog,
+            sortedAbsences,
+            getColor,
+            getAbsenceTypeName,
+            totalAbsencesForCourse
+        };
     }
 };
 </script>
   
 <style>
-.tableStyle {
-    background: white;
+.absence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    justify-content: start;
+}
+
+.absence-card {
+    padding: 16px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.course-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.absence-detail {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.absence-count {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.absence-chip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.v-chip {
+    margin: 4px 0;
 }
 </style>
   

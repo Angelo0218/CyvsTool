@@ -18,7 +18,7 @@
                 </v-btn>
             </v-form>
             <v-alert v-if="loginError" type="error" class="mt-4">
-                登入失敗，請檢查您的學號和密碼。
+                登入失敗<br>請檢查您的學號和密碼
             </v-alert>
         </v-card>
     </v-sheet>
@@ -30,7 +30,7 @@
 <script>
 import { ref } from 'vue';
 import axios from 'axios';
-import AbsenceDialog from '@/components/AbsenceDialog.vue'; // 引入 AbsenceDialog 組件
+import AbsenceDialog from '@/components/AbsenceDialog.vue';
 
 export default {
     components: {
@@ -40,25 +40,26 @@ export default {
         const email = ref(null);
         const password = ref(null);
         const loading = ref(false);
-        const showDialog = ref(false); // 控制彈窗顯示
-        const courseAbsences = ref({}); // 存儲缺曠數據
-        const loginError = ref(false); // 定义 loginError
+        const showDialog = ref(false);
+        const courseAbsences = ref({});
+        const loginError = ref(false);
 
         const onSubmit = async () => {
             loading.value = true;
 
             try {
-                const response = await axios.post('http://192.168.0.221:8000/login', {
+                const response = await axios.post('/api', {
                     UserId: email.value,
                     Pswd: password.value
                 });
 
-                // 處理響應數據
-                courseAbsences.value = response.data.course_absences; // 獲取缺曠數據
-                showDialog.value = true; // 顯示彈窗
+                courseAbsences.value = response.data.course_absences;
+                showDialog.value = true;
+                loginError.value = false; // 重置 loginError
                 loading.value = false;
             } catch (error) {
                 console.error('登入失敗:', error);
+                loginError.value = true; // 登錄失敗時設置 loginError 為 true
                 loading.value = false;
             }
         };
