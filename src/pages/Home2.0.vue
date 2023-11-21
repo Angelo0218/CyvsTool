@@ -1,4 +1,80 @@
+<script>
+import { ref } from 'vue';
+import axios from 'axios';
+import AbsenceDialog from '@/components/AbsenceDialog.vue';
+
+export default {
+    components: {
+        AbsenceDialog
+    },
+    setup() {
+        const email = ref(null);
+        const password = ref(null);
+        const showTermsDialog = ref(true);
+        const loading = ref(false);
+        const showDialog = ref(false);
+        const courseAbsences = ref({});
+        const loginError = ref(false);
+
+        const onSubmit = async () => {
+    
+            loading.value = true;
+
+            try {
+                const response = await axios.post('/api', {
+                    UserId: email.value,
+                    Pswd: password.value
+                });
+
+                courseAbsences.value = response.data.course_absences;
+                showDialog.value = true;
+                loginError.value = false;
+                loading.value = false;
+            } catch (error) {
+                console.error('登入失敗:', error);
+                loginError.value = true;
+                loading.value = false;
+            }
+        };
+
+        const acceptTerms = () => {
+      
+            showTermsDialog.value = false;
+        };
+
+        return {
+            email,
+            password,
+            showTermsDialog,
+            onSubmit,
+            acceptTerms,
+            loading,
+            showDialog,
+            courseAbsences,
+            loginError
+        };
+    }
+}
+</script>
 <template>
+    <v-dialog v-model="showTermsDialog" persistent max-width="600px">
+        <v-card>
+            <v-card-title class="text-h5 font-weight-300 mt-4">使用條款</v-card-title>
+            <v-card-text class="terms-text">
+                <p>在使用本查詢工具前，請詳細閱讀以下條款：</p>
+                <ul>
+                    <li>本工具僅供學習和查詢使用，請合理安排查詢次數以避免對校務系統造成負擔。</li>
+                    <li>如校方認為本服務危害到學校伺服器的穩定性，可通過郵件（<a
+                            href="mailto:maplech0218@gmail.com">maplech0218@gmail.com</a>）聯繫開發者進行處理。</li>
+                    <li>若無法登入，可能是因為多次嘗試登入導致校務系統暫時封鎖帳號，請稍後再試。</li>
+                </ul>
+                <p class="text-center"><strong>點擊同意表示您已閱讀並同意以上條款。</strong></p>
+            </v-card-text>
+            <v-card-actions class="justify-end">
+                <v-btn color="green darken-1" text @click="acceptTerms">同意</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
     <div style="display: flex;">
         <img src="https://www.upmedia.mg/upload/article/20180928111724891043.png" alt="素養啟英" style="height:100vh; width:60%;object-fit: cover;">
         <div style="width:100%; margin-left: 50px;">

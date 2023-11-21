@@ -6,7 +6,7 @@ import ViteFonts from 'unplugin-fonts/vite'
 // Utilities
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
-
+import { terser } from "rollup-plugin-terser" 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -27,6 +27,15 @@ export default defineConfig({
           styles: 'wght@100;300;400;500;700;900',
         }],
       },
+    }),
+    terser({ // 添加 terser 插件配置
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      },
+      output: {
+        comments: false
+      }
     }),
   ],
   define: { 'process.env': {} },
