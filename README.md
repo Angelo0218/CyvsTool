@@ -76,6 +76,18 @@ const onSubmit = async () => {
 - 啟動前端開發服務器：執行 `npm run dev`。
 - 通過瀏覽器訪問前端應用，並使用學號和密碼登入。
 
+## 開源聲明
+
+本工具是在 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License 的條款下提供的。此外，還附加了以下自定義條款：
+
+- **非商業用途**：本工具僅供非商業用途。任何商業使用均不允許。
+- **禁止非法用途**：嚴禁將本工具用於任何非法目的。
+- **標明出處**：在使用或改作本工具時，必須明確標明原始作者和出處。
+
+使用本工具即表示您同意遵守上述條款以及 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License 的所有相關條款。
+
+更多信息請訪問 [Creative Commons 官網](https://creativecommons.org/licenses/by-nc-sa/4.0/)。
+
 ## 功能說明
 - **登入**：使用學號和校務系統密碼。
 - **查詢缺曠**：登入後可查看缺曠狀況。
