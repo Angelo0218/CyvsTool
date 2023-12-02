@@ -81,7 +81,7 @@ const onSubmit = async () => {
 - **查詢缺曠**：登入後可查看缺曠狀況。
 - **隱私保障**：不會儲存個人資料。
 
-  ## 開源聲明
+## 開源聲明
 
 本工具是在 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License 的條款下提供的。此外，還附加了以下自定義條款：
 
