@@ -1,41 +1,43 @@
 <template>
     <v-sheet class="pa-12">
-        <span style="display: block;text-align: center; font-size: 1.5rem; font-weight: bolder;">啟英高中缺曠查詢工具</span>
-        <span style="display: block;text-align: center; font-size: 0.8rem; font-weight: bolder;">Chi-Ying High School
+        <span style="display: block; text-align: center; font-size: 1.5rem; font-weight: bolder;">啟英高中缺曠查詢工具</span>
+        <span style="display: block; text-align: center; font-size: 0.8rem; font-weight: bolder;">Chi-Ying High School
             Absence Inquiry Tool</span>
         <br>
         <br>
         <v-card class="mx-auto px-6 py-8" max-width="344">
-            <v-form @submit.prevent="onSubmit">
+            <v-form @submit.prevent="onSubmit" role="form">
                 <v-text-field v-model="email" :readonly="loading" class="mb-2" clearable label="學號" required></v-text-field>
                 <v-text-field v-model="password" :readonly="loading" clearable label="校務系統密碼" placeholder="輸入密碼"
                     type="password" required></v-text-field>
 
                 <v-btn :disabled="!email || !password || loading" :loading="loading" block color="#89916B" size="large"
-                    type="submit">
+                    type="submit" aria-label="提交">
                     查詢
                 </v-btn>
             </v-form>
-            <v-alert v-if="loginError" type="error" class="mt-4">
-                登入失敗
+            <v-alert v-if="loginError" type="error" class="mt-4" role="alert">
+                {{ loginError }}
             </v-alert>
+
         </v-card>
     </v-sheet>
     <AbsenceDialog :course-absences="courseAbsences" :course-status="courseStatus" v-model="showDialog" />
+
     <div style="display: block; text-align: center; margin-top: 3vh;">
         <span>Copyright© 苗栗國政府|教育廳<br>
             苗栗國（Myori）為網路虛擬國家</span>
         <br>
-        <button class="blue-underline" @click="showTermsDialog = true">使用條款</button>
+        <button class="blue-underline" @click="showTermsDialog = true" aria-label="打开使用条款对话框">使用條款</button>
     </div>
 
-    <v-dialog v-model="showTermsDialog" persistent max-width="600px" class="">
+    <v-dialog ref="termsDialog" v-model="showTermsDialog" persistent max-width="600px">
         <v-card>
             <v-card-title class="text-h5 font-weight-300 mt-4">使用條款</v-card-title>
             <v-card-text class="terms-text">
                 <p>在使用本查詢工具前，請仔細閱讀並同意以下條款：</p>
                 <ul>
-                    <li>本網站目前為1.4.1版本，未來更新或功能變更將可能對條款進行調整。</li>
+                    <li>本網站目前為1.5版本，未來更新或功能變更將可能對條款進行調整。</li>
                     <li>本工具是一個獨立的第三方工具，並無存取或儲存任何學生資料。所有登錄操作實際上發生在學校校務系統中，本工具不會記錄任何用戶資料。</li>
                     <li>我們重視您的隱私和數據安全，不會未經授權使用或分享您的個人信息。</li>
                     <li>為保障服務品質和公平使用，本網站對查詢次數進行了合理限制。請根據您的實際需求合理安排查詢。</li>
@@ -56,7 +58,9 @@
 
             <v-card-actions class="justify-center " large>
                 <v-btn color="white " b class="custom-large-btn " @click="acceptTerms"
-                    style="font-size:large;  background:#89916B; ">我已閲讀並同意以上條款</v-btn>
+                    style="font-size:large;  background:#89916B; " aria-label="同意使用條款">
+                    我已閲讀並同意以上條款
+                </v-btn>
             </v-card-actions>
         </v-card>
 
@@ -64,8 +68,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import axios from 'axios';
+import { ref, onMounted, watch } from 'vue';
 import AbsenceDialog from '@/components/AbsenceDialog.vue';
 
 export default {
@@ -75,37 +78,62 @@ export default {
     setup() {
         const email = ref(null);
         const password = ref(null);
-        const showTermsDialog = ref(true);
+        const showTermsDialog = ref(false);
         const loading = ref(false);
         const showDialog = ref(false);
         const courseAbsences = ref({});
         const loginError = ref(false);
         const courseStatus = ref({});
+        const termsDialog = ref(null);
+
+        watch(showTermsDialog, (newVal) => {
+            if (newVal) {
+                // 當對話框打開時
+                termsDialog.value.scrollTop = 0; // 將滾動條設置到頂部
+            }
+        });
+        onMounted(() => {
+            showTermsDialog.value = true;
+        });
 
         const onSubmit = async () => {
-
             loading.value = true;
+            loginError.value = false; // 重置登入錯誤信息
 
             try {
-                const response = await axios.post('https://api/login', {
-                    UserId: email.value,
-                    Pswd: password.value
+                const response = await fetch('https://api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        UserId: email.value,
+                        Pswd: password.value
+                    })
                 });
 
-                courseAbsences.value = response.data.course_absences;
-                courseStatus.value = response.data.course_status;
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        throw new Error('登入失敗：使用者名稱或密碼錯誤');
+                    } else {
+                        throw new Error('網路請求失敗');
+                    }
+                }
+
+                const data = await response.json();
+
+                courseAbsences.value = data.course_absences;
+                courseStatus.value = data.course_status;
                 showDialog.value = true;
-                loginError.value = false;
-                loading.value = false;
             } catch (error) {
-                console.error('登入失敗:', error);
-                loginError.value = true;
+                console.error(error);
+                loginError.value = error.message; // 設定錯誤信息
+            } finally {
                 loading.value = false;
             }
         };
 
         const acceptTerms = () => {
-
             showTermsDialog.value = false;
         };
 
@@ -119,7 +147,9 @@ export default {
             showDialog,
             courseAbsences,
             loginError,
-            courseStatus
+            courseStatus,
+            showTermsDialog,
+            termsDialog
         };
     }
 }
@@ -172,5 +202,4 @@ a:hover {
     /* 內部間距 */
     font-size: 16px;
     /* 字體大小 */
-}
-</style>
+}</style>
