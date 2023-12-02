@@ -125,26 +125,32 @@ period_map = {
     11: "降旗"
 }
 
-# 調整 calculate_absences 函數
 def calculate_absences(absence_data, schedule):
     course_schedule_map = {}
+    course_period_count = {}  # 存儲每門課程每週的節數
+
+    # 遍歷課程表，統計每門課程每週的節數
     for day_data in schedule:
         for weekday, periods in day_data.items():
             for period_data in periods:
                 for period, classes in period_data.items():
-                    if classes and classes[0]['課程']:
-                        course_schedule_map[(weekday, period)] = classes[0]['課程']
+                    for class_info in classes:
+                        course_name = class_info['課程']
+                        if course_name:
+                            course_period_count[course_name] = course_period_count.get(course_name, 0) + 1
+                            course_schedule_map[(weekday, period)] = course_name
 
     course_absences = {}
 
+    # 使用原有邏輯計算每門課程的缺勤次數
     for date, absences in absence_data.items():
-        weekday_chinese = date.split('(')[1][:1]  # 從日期中提取星期信息
-        weekday = weekday_mapping.get(weekday_chinese, "")  # 將星期轉換為完整的星期名稱
+        weekday_chinese = date.split('(')[1][:1]
+        weekday = weekday_mapping.get(weekday_chinese, "")
 
         for period_index, absence in enumerate(absences):
             period_name = period_map.get(period_index)
             course_name = course_schedule_map.get((weekday, period_name), "無課程")
-            
+
             if course_name == "無課程" or period_name == "午休":
                 continue
 
@@ -152,7 +158,23 @@ def calculate_absences(absence_data, schedule):
                 course_absences.setdefault(course_name, {}).setdefault(absence, 0)
                 course_absences[course_name][absence] += 1
 
-    return course_absences
+    total_classes = {course: count * 18 for course, count in course_period_count.items()}  # 計算每門課程的總節數
+    return course_absences, total_classes
+
+def calculate_course_status(course_absences, total_classes):
+    course_status = {}
+    for course, absences in course_absences.items():
+        total_absences = sum(absences.values())  # 計算總缺勤次數
+        total = total_classes.get(course, 0)  # 獲取總節數
+        third_of_classes = total // 3
+        remaining_to_third = max(0, third_of_classes - total_absences)  # 計算距離三分之一還剩多少節課
+        course_status[course] = {
+            "total_classes": total,
+            "total_absences": total_absences,
+            "over_threshold": total_absences >= third_of_classes,
+            "remaining_to_threshold": remaining_to_third
+        }
+    return course_status
 
 @app.route('/login', methods=['POST'])
 async def login_and_fetch_data():
@@ -193,13 +215,14 @@ async def login_and_fetch_data():
         html_absence = await fetch(session, absence_url)
         absence_data = await parse_absence_data(html_absence)
 
-        # 計算課程缺曠次數
-        course_absences = calculate_absences(absence_data, schedule_data)
+        course_absences, total_classes = calculate_absences(absence_data, schedule_data)
+        course_status = calculate_course_status(course_absences, total_classes)
 
         return jsonify({
             'schedule': schedule_data,
             'absence': absence_data,
-            'course_absences': course_absences
+            'course_absences': course_absences,
+            'course_status': course_status
         })
 
 if __name__ == '__main__':

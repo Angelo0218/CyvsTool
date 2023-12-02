@@ -1,7 +1,7 @@
 <template>
     <v-sheet class="pa-12">
-        <span style="display: block;text-align: center; font-size: 2rem; font-weight: bolder;">啟英高中快速缺曠查詢工具</span>
-        <span style="display: block;text-align: center; font-size: 1rem; font-weight: bolder;">Chi-Ying High School
+        <span style="display: block;text-align: center; font-size: 1.5rem; font-weight: bolder;">啟英高中缺曠查詢工具</span>
+        <span style="display: block;text-align: center; font-size: 0.8rem; font-weight: bolder;">Chi-Ying High School
             Absence Inquiry Tool</span>
         <br>
         <br>
@@ -21,7 +21,7 @@
             </v-alert>
         </v-card>
     </v-sheet>
-    <AbsenceDialog :course-absences="courseAbsences" v-model="showDialog" />
+    <AbsenceDialog :course-absences="courseAbsences" :course-status="courseStatus" v-model="showDialog" />
     <div style="display: block; text-align: center; margin-top: 3vh;">
         <span>Copyright© 苗栗國政府|教育廳<br>
             苗栗國（Myori）為網路虛擬國家</span>
@@ -35,7 +35,7 @@
             <v-card-text class="terms-text">
                 <p>在使用本查詢工具前，請仔細閱讀並同意以下條款：</p>
                 <ul>
-                    <li>本網站目前為1.3版本，未來更新或功能變更將可能對條款進行調整。</li>
+                    <li>本網站目前為1.4.1版本，未來更新或功能變更將可能對條款進行調整。</li>
                     <li>本工具是一個獨立的第三方工具，並無存取或儲存任何學生資料。所有登錄操作實際上發生在學校校務系統中，本工具不會記錄任何用戶資料。</li>
                     <li>我們重視您的隱私和數據安全，不會未經授權使用或分享您的個人信息。</li>
                     <li>為保障服務品質和公平使用，本網站對查詢次數進行了合理限制。請根據您的實際需求合理安排查詢。</li>
@@ -80,18 +80,20 @@ export default {
         const showDialog = ref(false);
         const courseAbsences = ref({});
         const loginError = ref(false);
+        const courseStatus = ref({});
 
         const onSubmit = async () => {
 
             loading.value = true;
 
             try {
-                const response = await axios.post('/api', {
+                const response = await axios.post('https://api/login', {
                     UserId: email.value,
                     Pswd: password.value
                 });
 
                 courseAbsences.value = response.data.course_absences;
+                courseStatus.value = response.data.course_status;
                 showDialog.value = true;
                 loginError.value = false;
                 loading.value = false;
@@ -116,7 +118,8 @@ export default {
             loading,
             showDialog,
             courseAbsences,
-            loginError
+            loginError,
+            courseStatus
         };
     }
 }
@@ -169,4 +172,5 @@ a:hover {
     /* 內部間距 */
     font-size: 16px;
     /* 字體大小 */
-}</style>
+}
+</style>

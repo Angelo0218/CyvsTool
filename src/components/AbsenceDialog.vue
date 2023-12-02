@@ -1,17 +1,34 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="1000px">
+    <v-dialog v-model="dialog" persistent max-width="600px">
         <v-card>
-            <v-card-title class="text-h5 font-weight-black ">缺曠記錄</v-card-title>
+            <v-card-title class="text-h5 font-weight-bold">缺曠記錄</v-card-title>
             <v-card-text>
-                <div class="absence-grid">
-                    <div v-for="(absenceInfo, courseName) in sortedAbsences" :key="courseName"
-                        class="absence-card elevation-2">
-                        <div class="course-title">{{ courseName }}</div>
-                        <div class="absence-detail">
-                            <div class="absence-count">總缺席節數：{{ totalAbsencesForCourse(absenceInfo) }}</div>
-                            <div v-for="(count, type) in absenceInfo" :key="type" class="absence-chip">
-                                <v-chip :color="getColor(type)" dark>{{ getAbsenceTypeName(type) }}：{{ count }}</v-chip>
-                            </div>
+                <div class="records-explanation">
+                    <!-- 添加標示說明 -->
+                    <p>「超過1/3」表示該課程的缺課次數超過總節數的三分之一。</p>
+                    <p>「正常」表示缺課次數未超過總節數的三分之一。</p>
+                    <span style="margin-left: 5px;">各種假期的節數將顯示於各自的標籤中。</span>
+                </div>
+                <div class="absence-cards-container">
+                    <div v-for="(status, courseName) in courseStatus" :key="courseName" class="absence-card">
+                        <div class="course-header">
+                            <span class="course-name">{{ courseName }}</span>
+                            <span class="status-indicator" :class="{ 'exceeded': status.over_threshold }">
+                                {{ status.over_threshold ? '超過1/3' : '正常' }}
+                            </span>
+                        </div>
+                        <div class="course-details">
+                            <span>預計剩餘節數將達到1/3：{{ status.remaining_to_threshold }}節 </span>
+                            <br>
+                            <span>累計缺課次數: {{ status.total_absences }}次</span>
+                            <br>
+                            <span>總節數: {{ status.total_classes }}節</span>
+                        </div>
+                        <div class="absence-types">
+                            <v-chip v-for="(count, type) in courseAbsences[courseName]" :key="type" :color="getColor(type)"
+                                class="absence-chip">
+                                {{ getAbsenceTypeName(type) }}：{{ count }}節
+                            </v-chip>
                         </div>
                     </div>
                 </div>
@@ -23,6 +40,7 @@
     </v-dialog>
 </template>
   
+
 <script>
 import { ref, computed } from 'vue';
 
@@ -31,12 +49,17 @@ export default {
         courseAbsences: {
             type: Object,
             required: true
-        }
+        },
+        courseStatus: {
+            type: Object,
+            required: true
+        },
     },
     setup(props) {
         const dialog = ref(false);
 
         const absenceTypes = {
+            '差': '公差',
             '公': '公假',
             '病': '病假',
             '喪': '喪假',
@@ -55,6 +78,7 @@ export default {
         };
 
         const colors = {
+            '差': 'orange',
             '公': 'orange',
             '病': 'green',
             '喪': 'brown',
@@ -103,47 +127,77 @@ export default {
     }
 };
 </script>
-  
+
 <style>
-.absence-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 16px;
-    justify-content: start;
+.records-explanation {
+    margin-bottom: 1rem;
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.absence-cards-container {
+    max-height: 65vh;
+    overflow-y: auto;
 }
 
 .absence-card {
-    padding: 16px;
-    border-radius: 8px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 1rem;
+    background: #fff;
 }
 
-.course-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.absence-detail {
+.course-header {
     display: flex;
-    flex-direction: column;
-    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
 }
 
-.absence-count {
-    font-size: 0.9rem;
-    margin-bottom: 8px;
+.course-name {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.status-indicator {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    color: white;
+    font-size: 0.875rem;
+}
+
+.exceeded {
+    background-color: #ff4949;
+}
+
+.status-indicator:not(.exceeded) {
+    background-color: #49ff90;
+}
+
+.course-details {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.absence-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .absence-chip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-}
-
-.v-chip {
-    margin: 4px 0;
+    font-size: 0.8rem;
+    font-weight: 400;
 }
 </style>
-  
+
+
+
+
+

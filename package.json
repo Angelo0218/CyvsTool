@@ -9,25 +9,30 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@mdi/font": "7.0.96",
+    "@mdi/font": "7.3.67",
     "axios": "^1.6.2",
-    "core-js": "^3.33.2",
+    "core-js": "^3.33.3",
     "roboto-fontface": "^0.10.0",
-    "vue": "^3.3.8",
+    "vue": "^3.3.9",
     "vue-good-table-next": "^0.2.1",
     "vue-router": "^4.2.5",
-    "vuetify": "^3.4.2"
+    "vuetify": "^3.4.3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.0",
     "cssnano": "^6.0.1",
     "eslint": "^8.54.0",
     "eslint-plugin-vue": "^9.18.1",
-    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-visualizer": "^5.9.3",
     "sass": "^1.69.5",
     "terser": "^5.24.0",
-    "unplugin-fonts": "^1.0.3",
-    "vite": "^4.5.0",
+    "unplugin-auto-import": "^0.17.1",
+    "unplugin-fonts": "^1.1.1",
+    "unplugin-vue-components": "^0.25.2",
+    "vite": "^5.0.2",
+    "vite-plugin-imagemin": "^0.6.1",
+    "vite-plugin-prerender": "^1.0.8",
+    "vite-plugin-pwa": "^0.17.2",
     "vite-plugin-vuetify": "^1.0.2"
   }
 }
