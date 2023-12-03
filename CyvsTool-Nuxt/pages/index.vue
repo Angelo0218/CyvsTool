@@ -199,56 +199,6 @@ a:hover {
     padding: 5px;
     /* 內部間距 */
     font-size: 16px;
-    /* 字體大小 */
-}
-</style>
 
-<style>
-.terms-text ul {
-    padding-left: 1em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-}
 
-.terms-text ul li {
-    margin-bottom: 0.5em;
-}
-
-.terms-text p {
-    margin-bottom: 0.5em;
-}
-
-.terms-text .text-center {
-    margin-top: 1em;
-    font-weight: 400;
-}
-
-a {
-    color: #1976D2;
-    /* 藍色連結 */
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.blue-underline {
-    text-decoration: underline;
-    text-decoration-color: blue;
-    text-decoration-thickness: 1px;
-    /* 控制底線粗細 */
-    border: none;
-    /* 移除標準按鈕邊框 */
-    background: none;
-    /* 移除背景顏色 */
-    color: blue;
-    /* 文字顏色 */
-    cursor: pointer;
-    /* 滑鼠懸停時顯示指標 */
-    padding: 5px;
-    /* 內部間距 */
-    font-size: 16px;
-    /* 字體大小 */
-}
-</style>
+}</style>
