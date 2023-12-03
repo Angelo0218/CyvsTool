@@ -12,7 +12,7 @@
                     type="password" required></v-text-field>
 
                 <v-btn :disabled="!email || !password || loading" :loading="loading" block color="#89916B" size="large"
-                    type="submit" aria-label="提交">
+                    type="submit" aria-label="查詢">
                     查詢
                 </v-btn>
             </v-form>
@@ -23,17 +23,18 @@
         </v-card>
     </v-sheet>
     <AbsenceDialog :course-absences="courseAbsences" :course-status="courseStatus" v-model="showDialog" />
-
     <div style="display: block; text-align: center; margin-top: 3vh;">
         <span>Copyright© 苗栗國政府|教育廳<br>
             苗栗國（Myori）為網路虛擬國家</span>
         <br>
-        <button class="blue-underline" @click="showTermsDialog = true" aria-label="打开使用条款对话框">使用條款</button>
+        <button class="blue-underline" @click="showTermsDialog = true" aria-label="打開使用條款">
+            使用條款
+        </button>
     </div>
 
-    <v-dialog ref="termsDialog" v-model="showTermsDialog" persistent max-width="600px">
+    <v-dialog ref="termsDialog" v-model="showTermsDialog" persistent max-width="600px" aria-labelledby="dialogTitle">
         <v-card>
-            <v-card-title class="text-h5 font-weight-300 mt-4">使用條款</v-card-title>
+            <v-card-title id="dialogTitle" class="text-h5 font-weight-300 mt-4">使用條款</v-card-title>
             <v-card-text class="terms-text">
                 <p>在使用本查詢工具前，請仔細閱讀並同意以下條款：</p>
                 <ul>
@@ -57,8 +58,8 @@
 
 
             <v-card-actions class="justify-center " large>
-                <v-btn color="white " b class="custom-large-btn " @click="acceptTerms"
-                    style="font-size:large;  background:#89916B; " aria-label="同意使用條款">
+                <v-btn color="white" b class="custom-large-btn" @click="acceptTerms"
+                    style="font-size:large; background:#89916B;" aria-label="同意使用條款">
                     我已閲讀並同意以上條款
                 </v-btn>
             </v-card-actions>
@@ -68,13 +69,11 @@
 </template>
 
 <script>
-import { ref, onMounted, watch } from 'vue';
-import AbsenceDialog from '@/components/AbsenceDialog.vue';
+import { ref, onMounted, watch, defineAsyncComponent } from 'vue';
+
+const AbsenceDialog = defineAsyncComponent(() => import('@/components/AbsenceDialog.vue'));
 
 export default {
-    components: {
-        AbsenceDialog
-    },
     setup() {
         const email = ref(null);
         const password = ref(null);
@@ -148,7 +147,6 @@ export default {
             courseAbsences,
             loginError,
             courseStatus,
-            showTermsDialog,
             termsDialog
         };
     }
@@ -202,4 +200,55 @@ a:hover {
     /* 內部間距 */
     font-size: 16px;
     /* 字體大小 */
-}</style>
+}
+</style>
+
+<style>
+.terms-text ul {
+    padding-left: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.terms-text ul li {
+    margin-bottom: 0.5em;
+}
+
+.terms-text p {
+    margin-bottom: 0.5em;
+}
+
+.terms-text .text-center {
+    margin-top: 1em;
+    font-weight: 400;
+}
+
+a {
+    color: #1976D2;
+    /* 藍色連結 */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.blue-underline {
+    text-decoration: underline;
+    text-decoration-color: blue;
+    text-decoration-thickness: 1px;
+    /* 控制底線粗細 */
+    border: none;
+    /* 移除標準按鈕邊框 */
+    background: none;
+    /* 移除背景顏色 */
+    color: blue;
+    /* 文字顏色 */
+    cursor: pointer;
+    /* 滑鼠懸停時顯示指標 */
+    padding: 5px;
+    /* 內部間距 */
+    font-size: 16px;
+    /* 字體大小 */
+}
+</style>
