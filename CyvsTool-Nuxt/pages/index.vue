@@ -6,7 +6,7 @@
         <br>
         <br>
         <v-card class="mx-auto px-6 py-8" max-width="344">
-            <v-form @submit.prevent="onSubmit" role="form">
+            <v-form @submit.prevent="onSubmit">
                 <v-text-field v-model="email" :readonly="loading" class="mb-2" clearable label="學號" required></v-text-field>
                 <v-text-field v-model="password" :readonly="loading" clearable label="校務系統密碼" placeholder="輸入密碼"
                     type="password" required></v-text-field>
@@ -59,7 +59,7 @@
 
             <v-card-actions class="justify-center " large>
                 <v-btn color="white" b class="custom-large-btn" @click="acceptTerms"
-                    style="font-size:large; background:#89916B;" aria-label="同意使用條款">
+                    style="font-size:large; background:#89916B;">
                     我已閲讀並同意以上條款
                 </v-btn>
             </v-card-actions>
