@@ -1,13 +1,11 @@
 <template>
     <v-sheet class="pa-12">
-        <span style="display: block; text-align: center; font-size: 1.5rem; font-weight: bolder;">啟英高中缺曠查詢工具</span>
-        <span style="display: block; text-align: center; font-size: 0.8rem; font-weight: bolder;">Chi-Ying High School
-            Absence Inquiry Tool</span>
-        <br>
-        <br>
+        <h1 style="font-size: 1.6rem;    margin-bottom: 0.2em; ">啟英高中第三方學生缺礦查詢工具</h1>
+        <h3 style=" font-size: 1rem;    margin-bottom: 2em; font-weight: 500;">只需輸入您的校務系統學號和密碼，即可查看您的缺礦紀錄和統計</h3>
         <v-card class="mx-auto px-6 py-8" max-width="344">
             <v-form @submit.prevent="onSubmit">
-                <v-text-field v-model="email" :readonly="loading" class="mb-2" clearable label="學號" required></v-text-field>
+                <v-text-field v-model="email" :readonly="loading" class="mb-2" clearable label="學號" placeholder="輸入學號"
+                    required></v-text-field>
                 <v-text-field v-model="password" :readonly="loading" clearable label="校務系統密碼" placeholder="輸入密碼"
                     type="password" required></v-text-field>
 
@@ -16,17 +14,20 @@
                     查詢
                 </v-btn>
             </v-form>
+            
             <v-alert v-if="loginError" type="error" class="mt-4" role="alert">
                 {{ loginError }}
             </v-alert>
 
         </v-card>
+        <h4 style="font-size: 0.8rem; font-weight: 500;text-align: center; margin-top: 10px;">※此工具並不會儲存用戶資料，如有疑慮可聯繫作者</h4>
     </v-sheet>
+
     <AbsenceDialog :course-absences="courseAbsences" :course-status="courseStatus" v-model="showDialog" />
-    <div style="display: block; text-align: center; margin-top: 3vh;">
-        <span>Copyright© 苗栗國政府|教育廳<br>
-            苗栗國（Myori）為網路虛擬國家</span>
-        <br>
+    <div style="display: block; text-align: center; margin-top: 3.5vh; ">
+        <h4 style="font-weight: 300;">Copyright© 苗栗國政府|教育廳<br>
+            苗栗國（Myori）為網路虛擬國家</h4>
+        
         <button class="blue-underline" @click="showTermsDialog = true" aria-label="打開使用條款">
             使用條款
         </button>
@@ -53,7 +54,7 @@
                     <li>如在使用過程中發現任何錯誤或有改善建議，歡迎通過郵件（<a
                             href="mailto:angelo0218@ajlo.org">angelo0218@ajlo.org</a>）或GitHub項目頁面提出反饋。</li>
                 </ul>
-                <h4 class="text-center"><strong>點擊同意表示您已閱讀並同意以上條款。</strong></h4>
+                <h3 class="text-center"><strong>點擊同意表示您已閱讀並同意以上條款。</strong></h3>
             </v-card-text>
 
 
@@ -154,6 +155,14 @@ export default {
 </script>
 
 <style>
+h1,
+h3{
+    display: block;
+    text-align: center;
+    font-weight: bolder;
+
+}
+
 .terms-text ul {
     padding-left: 1em;
     margin-top: 0.5em;
@@ -201,4 +210,5 @@ a:hover {
     font-size: 16px;
 
 
-}</style>
+}
+</style>
