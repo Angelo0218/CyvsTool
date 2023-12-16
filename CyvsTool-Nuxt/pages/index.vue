@@ -34,19 +34,18 @@
         <v-card class="mx-auto px-6 py-8" max-width="460">
             <h1 style="font-size: 1.6rem; margin-bottom: 0.2em;">使用教學</h1>
 
-            <h3 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">1. 輸入校務系統帳號密碼</h3>
+            <h2 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">1. 輸入校務系統帳號密碼</h2>
             <video src="/test1.mp4" style="width: 100%; height: auto;" autoplay muted loop playsinline loading="lazy"
                 preload="auto"></video>
 
-            <h3 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">2. 點選查詢</h3>
+            <h2 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">2. 點選查詢</h2>
             <video src="/test2.mp4" style="width: 100%; height: auto;" autoplay muted loop playsinline loading="lazy"
                 preload="auto"></video>
 
-            <h3 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">3. 即可查看各個科目的缺曠狀況</h3>
+            <h2 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">3. 即可查看各個科目的缺曠狀況</h2>
             <video src="/test3.mp4" style="width: 100%; height: auto;" autoplay muted loop playsinline loading="lazy"
                 preload="auto"></video>
         </v-card>
-
 
     </v-sheet>
 
