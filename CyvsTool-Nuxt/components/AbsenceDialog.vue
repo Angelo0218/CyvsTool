@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog v-model="dialog" persistent max-width="620px">
         <v-card>
             <v-card-title class="text-h5 font-weight-bold">缺曠記錄</v-card-title>
             <v-card-text>
@@ -138,7 +138,7 @@ export default {
 }
 
 .absence-cards-container {
-    max-height: 65vh;
+    max-height: 68vh;
     overflow-y: auto;
 }
 
