@@ -1,37 +1,58 @@
 <template>
-    <v-sheet class="pa-12">
-        <h1 style="font-size: 1.6rem;    margin-bottom: 0.2em; ">啟英高中第三方學生缺礦查詢工具</h1>
-        <h3 style=" font-size: 1rem;    margin-bottom: 2em; font-weight: 500;">只需輸入您的校務系統學號和密碼，即可查看您的缺礦紀錄和統計</h3>
-        <v-card class="mx-auto px-6 py-8" max-width="344">
+    <nav class="navbar">
+        <img src="/apple-icon-144x144.png" alt="Logo" class="logo" />
+        <h1 class="title">啟英高中缺礦查詢工具</h1>
+    </nav>
+    <v-sheet class="pa-8">
+        <v-card class="mx-auto px-6 py-10" max-width="450">
+            <h1 style="font-size: 1.6rem;    margin-bottom: 0.2em; ">登入
+            </h1>
+            <h3 style=" font-size: 1rem;    margin-bottom: 2em; font-weight: 500;">輸入學生校務系統帳號和密碼以查詢出席記錄。</h3>
+
             <v-form @submit.prevent="onSubmit">
                 <v-text-field v-model="email" :readonly="loading" class="mb-2" clearable label="學號" placeholder="輸入學號"
                     required></v-text-field>
                 <v-text-field v-model="password" :readonly="loading" clearable label="校務系統密碼" placeholder="輸入密碼"
                     type="password" required></v-text-field>
 
-                <v-btn :disabled="!email || !password || loading" :loading="loading" block color="#89916B" size="large"
+                <v-btn :disabled="!email || !password || loading" :loading="loading" block color="#667054" size="large"
                     type="submit" aria-label="查詢">
                     查詢
                 </v-btn>
             </v-form>
-            
+
             <v-alert v-if="loginError" type="error" class="mt-4" role="alert">
                 {{ loginError }}
             </v-alert>
 
+
+            <h4 style="font-size: 0.8rem; font-weight: 500;text-align: center; margin-top: 10px;">※此工具並不會儲存用戶資料，如有疑慮可聯繫作者
+            </h4>
         </v-card>
-        <h4 style="font-size: 0.8rem; font-weight: 500;text-align: center; margin-top: 10px;">※此工具並不會儲存用戶資料，如有疑慮可聯繫作者</h4>
+    </v-sheet>
+    <v-sheet class="pa-5">
+        <v-card class="mx-auto px-6 py-8" max-width="450">
+            <h1 style="font-size: 1.6rem; margin-bottom: 0.2em;">使用教學</h1>
+
+            <h3 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">1. 輸入校務系統帳號密碼</h3>
+            <video src="/test1.mp4" style="width: 100%; height: auto;" autoplay muted loop loading="lazy"></video>
+
+            <h3 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">2. 點選查詢</h3>
+            <video src="/test2.mp4" style="width: 100%; height: auto;" autoplay muted loop loading="lazy"></video>
+
+            <h3 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">3. 即可查看各個科目的缺曠狀況</h3>
+            <video src="/test3.mp4" style="width: 100%; height: auto;" autoplay muted loop loading="lazy"></video>
+        </v-card>
     </v-sheet>
 
     <AbsenceDialog :course-absences="courseAbsences" :course-status="courseStatus" v-model="showDialog" />
-    <div style="display: block; text-align: center; margin-top: 3.5vh; ">
-        <h4 style="font-weight: 300;">Copyright© 苗栗國政府|教育廳<br>
-            苗栗國（Myori）為網路虛擬國家</h4>
-        
+    <footer class="my-footer">
+        <p class="footer-text footer-bold">Copyright© 苗栗國政府|教育廳</p>
+        <p class="footer-text footer-md">苗栗國（Myori）為網路虛擬國家</p>
         <button class="blue-underline" @click="showTermsDialog = true" aria-label="打開使用條款">
             使用條款
         </button>
-    </div>
+    </footer>
 
     <v-dialog ref="termsDialog" v-model="showTermsDialog" persistent max-width="600px" aria-labelledby="dialogTitle">
         <v-card>
@@ -60,7 +81,7 @@
 
             <v-card-actions class="justify-center " large>
                 <v-btn color="white" b class="custom-large-btn" @click="acceptTerms"
-                    style="font-size:large; background:#89916B;">
+                    style="font-size:large; background:#667054;">
                     我已閲讀並同意以上條款
                 </v-btn>
             </v-card-actions>
@@ -101,7 +122,7 @@ export default {
             loginError.value = false; // 重置登入錯誤信息
 
             try {
-                const response = await fetch('https://api/login', {
+                const response = await fetch('https://api.cyvs.ajlo.org/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -156,10 +177,12 @@ export default {
 
 <style>
 h1,
-h3{
+h3 {
     display: block;
-    text-align: center;
+    text-align: start;
     font-weight: bolder;
+    color: #667054;
+
 
 }
 
@@ -210,5 +233,74 @@ a:hover {
     font-size: 16px;
 
 
+}
+
+.navbar {
+    display: flex;
+    padding: 1.3rem;
+
+    color: #667054;
+    z-index: 1;
+
+
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+
+}
+
+
+/* 左侧部分样式 */
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    /* 调整为适当的值 */
+
+}
+
+/* Logo样式 */
+.logo {
+    height: 2rem;
+    /* 调整为适当的值 */
+    width: 2rem;
+    /* 调整为适当的值 */
+
+}
+
+/* 标题样式 */
+.title {
+    font-size: 1.2rem;
+    /* 调整为适当的值 */
+    font-weight: bold;
+
+    margin-left: 10px;
+}
+
+.my-footer {
+    text-align: center;
+    padding: 1.5rem;
+
+}
+
+.footer-text {
+    font-size: 1rem;
+}
+
+.footer-bold {
+    font-weight: bold;
+}
+
+.footer-md {
+    font-size: 0.875rem;
+    /* 14px assuming a base font size of 16px */
+}
+
+.footer-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    color: #888888;
 }
 </style>
