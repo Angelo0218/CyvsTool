@@ -26,8 +26,8 @@
             </v-alert>
 
 
-            <h4 style="font-size: 0.8rem; font-weight: 500;text-align: center; margin-top: 10px;">※此工具並不會儲存用戶資料，如有疑慮可聯繫作者
-            </h4>
+            <h3 style="font-size: 0.8rem; font-weight: 500;text-align: center; margin-top: 10px;">※此工具並不會儲存用戶資料，如有疑慮可聯繫作者
+            </h3>
         </v-card>
     </v-sheet>
     <v-sheet class="pa-5">
