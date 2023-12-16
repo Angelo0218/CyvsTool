@@ -9,6 +9,9 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: "zh-Hant",
       },
+      return: {
+        'Cache-Control': 'public, max-age=86400',
+      },
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -122,6 +125,11 @@ export default defineNuxtConfig({
           href: "/favicon-16x16.png",
         },
       ],
+    },
+  },
+  render: {
+    static: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, 
     },
   },
   build: {
