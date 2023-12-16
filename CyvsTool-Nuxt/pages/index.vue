@@ -4,7 +4,7 @@
         <h1 class="title">啟英高中缺礦查詢工具</h1>
     </nav>
     <v-sheet class="pa-8">
-        <v-card class="mx-auto px-6 py-10" max-width="450">
+        <v-card class="mx-auto px-6 py-10" max-width="460">
             <h1 style="font-size: 1.6rem;    margin-bottom: 0.2em; ">登入
             </h1>
             <h3 style=" font-size: 1rem;    margin-bottom: 2em; font-weight: 500;">輸入學生校務系統帳號和密碼以查詢出席記錄。</h3>
@@ -31,16 +31,22 @@
         </v-card>
     </v-sheet>
     <v-sheet class="pa-5">
-        <v-card class="mx-auto px-6 py-8" max-width="450">
+        <v-card class="mx-auto px-6 py-8" max-width="460">
             <h1 style="font-size: 1.6rem; margin-bottom: 0.2em;">使用教學</h1>
 
             <h3 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">1. 輸入校務系統帳號密碼</h3>
-            <video src="/test1.mp4" style="width: 100%; height: auto;" autoplay muted loop playsinline loading="lazy"></video>
+            <video src="/test1.mp4" style="width: 100%; height: auto;" autoplay muted loop playsinline loading="lazy"
+                preload="auto"></video>
+
             <h3 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">2. 點選查詢</h3>
-            <video src="/test2.mp4" style="width: 100%; height: auto;" autoplay muted loop playsinline loading="lazy"></video>
+            <video src="/test2.mp4" style="width: 100%; height: auto;" autoplay muted loop playsinline loading="lazy"
+                preload="auto"></video>
+
             <h3 style="margin-top: 20px; font-size: 1rem; font-weight: 500;">3. 即可查看各個科目的缺曠狀況</h3>
-            <video src="/test3.mp4" style="width: 100%; height: auto;" autoplay muted loop playsinline loading="lazy"></video>
+            <video src="/test3.mp4" style="width: 100%; height: auto;" autoplay muted loop playsinline loading="lazy"
+                preload="auto"></video>
         </v-card>
+
     </v-sheet>
 
     <AbsenceDialog :course-absences="courseAbsences" :course-status="courseStatus" v-model="showDialog" />
@@ -300,5 +306,4 @@ a:hover {
 
 .footer-link:hover {
     color: #888888;
-}
-</style>
+}</style>
