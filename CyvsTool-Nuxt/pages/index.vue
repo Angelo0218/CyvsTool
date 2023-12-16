@@ -7,7 +7,7 @@
         <v-card class="mx-auto px-6 py-10" max-width="460">
             <h1 style="font-size: 1.6rem;    margin-bottom: 0.2em; ">登入
             </h1>
-            <h3 style=" font-size: 1rem;    margin-bottom: 2em; font-weight: 500;">輸入學生校務系統帳號和密碼以查詢出席記錄。</h3>
+            <h2 style=" font-size: 1rem;    margin-bottom: 2em; font-weight: 500;">輸入學生校務系統帳號和密碼以查詢出席記錄。</h2>
 
             <v-form @submit.prevent="onSubmit">
                 <v-text-field v-model="email" :readonly="loading" class="mb-2" clearable label="學號" placeholder="輸入學號"
