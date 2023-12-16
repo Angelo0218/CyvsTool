@@ -47,6 +47,7 @@
                 preload="auto"></video>
         </v-card>
 
+
     </v-sheet>
 
     <AbsenceDialog :course-absences="courseAbsences" :course-status="courseStatus" v-model="showDialog" />
