@@ -122,7 +122,7 @@ export default {
             loginError.value = false; // 重置登入錯誤信息
 
             try {
-                const response = await fetch('https://api.cyvs.ajlo.org/login', {
+                const response = await fetch('https://api/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
