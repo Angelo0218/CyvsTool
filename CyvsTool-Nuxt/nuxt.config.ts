@@ -147,6 +147,7 @@ export default defineNuxtConfig({
       display: "standalone",
       scope: "/",
       start_url: "/",
+      prefer_related_applications: false,
       icons: [
         {
           src: "/android-icon-36x36.png",
