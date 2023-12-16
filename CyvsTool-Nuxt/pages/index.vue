@@ -74,8 +74,8 @@
                     <li>若校方認為本服務影響學校伺服器的穩定性，或有任何安全疑慮，請通過郵件聯繫開發者進行處理：<a
                             href="mailto:angelo0218@ajlo.org">angelo0218@ajlo.org</a>。</li>
                     <li>本服務可能因維護、升級或其他技術原因而暫時中斷或終止，我們將盡力提前通知用戶。</li>
-                    <li>本項目是開源的，您可以在 GitHub 上查看源碼：<a href="https://github.com/Angelo0218/Cyvs-MIMC"
-                            target="_blank">https://github.com/Angelo0218/Cyvs-MIMC</a>。有關開源許可的詳細信息，請參考項目頁面上的說明。</li>
+                    <li>本項目是開源的，您可以在 GitHub 上查看源碼：<a href="https://github.com/Angelo0218/CyvsTool"
+                            target="_blank">https://github.com/Angelo0218/CyvsTool</a>。有關開源許可的詳細信息，請參考項目頁面上的說明。</li>
                     <li>如在使用過程中發現任何錯誤或有改善建議，歡迎通過郵件（<a
                             href="mailto:angelo0218@ajlo.org">angelo0218@ajlo.org</a>）或GitHub項目頁面提出反饋。</li>
                 </ul>
