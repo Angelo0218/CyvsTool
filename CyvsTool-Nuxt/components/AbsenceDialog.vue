@@ -130,17 +130,14 @@ export default {
 
 <style>
 .records-explanation {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     background-color: #f4f4f4;
     padding: 1rem;
     border-radius: 4px;
     font-size: 0.9rem;
 }
 
-.absence-cards-container {
-    max-height: 68vh;
-    overflow-y: auto;
-}
+
 
 .absence-card {
     margin-bottom: 1rem;
