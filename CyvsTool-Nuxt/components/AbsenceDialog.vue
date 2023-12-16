@@ -145,6 +145,8 @@ export default {
     border-radius: 4px;
     padding: 1rem;
     background: #fff;
+    overflow-y: auto;
+    transform: translate3d(0, 0, 0);
 }
 
 .course-header {
