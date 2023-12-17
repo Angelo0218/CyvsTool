@@ -10,11 +10,12 @@ export default defineNuxtConfig({
         lang: "zh-Hant",
       },
       return: {
-        'Cache-Control': 'public, max-age=86400',
+        "Cache-Control": "public, max-age=86400",
       },
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "theme-color", content: "#FFFFFF" },
         {
           name: "description",
           content:
@@ -129,7 +130,7 @@ export default defineNuxtConfig({
   },
   render: {
     static: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, 
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     },
   },
   build: {
@@ -147,7 +148,8 @@ export default defineNuxtConfig({
     manifest: {
       name: "啟英高中缺曠工具",
       short_name: "啟英工具",
-      description: "啟英高中缺曠工具：由啟英高中學生開發的非官方工具，專為學生設計，用以便捷地查詢個人的本學期各科目的缺曠課狀況。",
+      description:
+        "啟英高中缺曠工具：由啟英高中學生開發的非官方工具，專為學生設計，用以便捷地查詢個人的本學期各科目的缺曠課狀況。",
       lang: "zh-Hant",
       useWebmanifestExtension: true,
       background_color: "#FFFFFF",
@@ -273,9 +275,9 @@ export default defineNuxtConfig({
           src: "/apple-icon.png",
           sizes: "180x180",
           type: "image/png",
-        }
+        },
       ],
-      
+
       shortcuts: [
         {
           name: "查詢缺曠",
@@ -285,19 +287,51 @@ export default defineNuxtConfig({
           icons: [{ src: "/android-icon-192x192.png", sizes: "192x192" }],
         },
       ],
-    },
-    workbox: {
-      runtimeCaching: [
-        {
-          urlPattern: "https://cyvstool.ajlo.org/.*",
-          handler: "NetworkFirst",
-          method: "GET",
-          strategyOptions: { cacheableResponse: { statuses: [0, 200] } },
+
+      splashScreens: {
+        defaults: {
+          iconPaths: [
+            {
+              src: "/icons/icon-512x512.png",
+              sizes: "512x512",
+              type: "image/png",
+            },
+          ],
+          backgroundColor: "#FFFFFF",
         },
-      ],
+
+        xs: {
+          width: 320,
+          height: 120,
+        },
+      },
+
+      workbox: {
+        runtimeCaching: [
+          {
+            urlPattern: "https://api.cyvs.ajlo.org/.*",
+            handler: "networkFirst",
+            method: "GET",
+          },
+          {
+            urlPattern: "/*.png",
+            handler: "staleWhileRevalidate",
+            method: "GET",
+          },
+          {
+            urlPattern: "/.*",
+            handler: "networkFirst",
+            strategyOptions: {
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
+      },
     },
   },
-  
+
   vite: {
     vue: {
       template: {

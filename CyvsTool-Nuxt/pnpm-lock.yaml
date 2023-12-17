@@ -1844,6 +1844,7 @@ packages:
     dependencies:
       is-glob: registry.npmmirror.com/is-glob@4.0.3
       micromatch: registry.npmmirror.com/micromatch@4.0.5
+      napi-wasm: registry.npmmirror.com/napi-wasm@1.1.0
     dev: true
     bundledDependencies:
       - napi-wasm
@@ -5653,6 +5654,12 @@ packages:
     version: 4.0.2
     engines: {node: ^14 || ^16 || >=18}
     hasBin: true
+    dev: true
+
+  registry.npmmirror.com/napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==, tarball: https://registry.npmmirror.com/napi-wasm/-/napi-wasm-1.1.0.tgz}
+    name: napi-wasm
+    version: 1.1.0
     dev: true
 
   registry.npmmirror.com/negotiator@0.6.3:
