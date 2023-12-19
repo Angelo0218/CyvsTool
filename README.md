@@ -26,7 +26,7 @@
 
 ## 演示網站
 
-[啟英高中缺曠課查詢工具](https://cyvstools.ajlo.org/)
+[啟英高中缺曠課查詢工具](https://cyvstool.ajlo.org/)
 
 ## 注意事項
 
