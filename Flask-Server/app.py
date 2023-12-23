@@ -1,4 +1,4 @@
-from quart import Quart, jsonify, request, g
+from quart import Quart, jsonify, request
 from quart_cors import cors
 from functools import wraps
 from datetime import datetime, timedelta
@@ -168,13 +168,19 @@ def calculate_course_status(course_absences, total_classes):
         total = total_classes.get(course, 0)  # 獲取總節數
         third_of_classes = total // 3
         remaining_to_third = max(0, third_of_classes - total_absences)  # 計算距離三分之一還剩多少節課
+        
+        # 修改部分，只考慮曠課和事假的情況
+        total_absences_for_threshold = absences.get("曠", 0) + absences.get("事", 0)
+        remaining_to_third = max(0, third_of_classes - total_absences_for_threshold)
+
         course_status[course] = {
             "total_classes": total,
-            "total_absences": total_absences,
-            "over_threshold": total_absences >= third_of_classes,
+            "total_absences": total_absences_for_threshold,
+            "over_threshold": total_absences_for_threshold >= third_of_classes,
             "remaining_to_threshold": remaining_to_third
         }
     return course_status
+
 
 @app.route('/login', methods=['POST'])
 async def login_and_fetch_data():
