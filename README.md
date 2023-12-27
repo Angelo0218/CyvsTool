@@ -54,7 +54,7 @@ pip install quart quart-cors aiohttp beautifulsoup4
 啟動伺服器：
 
 ```bash
-hypercorn your_application:app --reload
+hypercorn app:app --reload
 ```
 
 ### 啟動前端開發服務器
