@@ -110,4 +110,4 @@ npm run dev
 
 使用本工具即表示您同意遵守上述條款以及 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License 的所有相關條款。
 
-更多信息請訪問 [Creative Commons 官網](https://creativecommons.org/licenses/by-nc-sa/4.0/)。
+請查看LICENSE文檔。
