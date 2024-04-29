@@ -1,7 +1,12 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="620px">
         <v-card>
-            <v-card-title class="text-h5 font-weight-bold">缺曠記錄</v-card-title>
+            <v-card-title class="text-h5 font-weight-bold d-flex justify-content-between align-items-center">
+                缺曠記錄
+                <v-btn icon class="close-dialog-btn" @click="dialog = false">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+            </v-card-title>
             <v-card-text>
                 <div class="records-explanation">
                     <!-- 添加標示說明 -->
@@ -25,8 +30,8 @@
                             <span>總節數: {{ status.total_classes }}節</span>
                         </div>
                         <div class="absence-types">
-                            <v-chip v-for="(count, type) in courseAbsences[courseName]" :key="type" :color="getColor(type)"
-                                class="absence-chip">
+                            <v-chip v-for="(count, type) in courseAbsences[courseName]" :key="type"
+                                :color="getColor(type)" class="absence-chip">
                                 {{ getAbsenceTypeName(type) }}：{{ count }}節
                             </v-chip>
                         </div>
@@ -39,7 +44,7 @@
         </v-card>
     </v-dialog>
 </template>
-  
+
 
 <script>
 import { ref, computed } from 'vue';
@@ -129,6 +134,11 @@ export default {
 </script>
 
 <style>
+.close-dialog-btn {
+    margin-top: -10px;
+    /* 根据需要调整按钮的垂直位置 */
+}
+
 .records-explanation {
     margin-bottom: 2rem;
     background-color: #f4f4f4;
@@ -137,8 +147,6 @@ export default {
     font-size: 0.9rem;
 }
 
-
-
 .absence-card {
     margin-bottom: 1rem;
     border: 1px solid #e0e0e0;
@@ -146,7 +154,6 @@ export default {
     padding: 1rem;
     background: #fff;
     overflow-y: auto;
-    transform: translate3d(0, 0, 0);
 }
 
 .course-header {
@@ -194,9 +201,23 @@ export default {
     font-size: 0.8rem;
     font-weight: 400;
 }
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.close-dialog-btn {
+    margin-right: -10px; /* 右边负边距调整按钮位置 */
+    margin-top: 2px;
+}
+
+.records-explanation {
+    margin-bottom: 2rem;
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
 </style>
-
-
-
-
-

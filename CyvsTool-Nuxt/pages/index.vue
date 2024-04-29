@@ -16,7 +16,7 @@
                     type="password" required></v-text-field>
 
                 <v-btn :disabled="!email || !password || loading" :loading="loading" block color="#667054" size="large"
-                    type="submit" aria-label="查詢">
+                    type="submit" aria-label="查詢" @click="checkTerms">
                     查詢
                 </v-btn>
             </v-form>
@@ -26,7 +26,8 @@
             </v-alert>
 
 
-            <h3 style="font-size: 0.8rem; font-weight: 500;text-align: center; margin-top: 10px;">※此工具並不會儲存用戶資料，如有疑慮可聯繫作者
+            <h3 style="font-size: 0.8rem; font-weight: 500;text-align: center; margin-top: 10px;">
+                ※此工具並不會儲存用戶資料，如有疑慮可聯繫作者
             </h3>
         </v-card>
     </v-sheet>
@@ -57,45 +58,48 @@
             使用條款
         </button>
     </footer>
-
     <v-dialog ref="termsDialog" v-model="showTermsDialog" persistent max-width="600px" aria-labelledby="dialogTitle">
         <v-card>
-            <v-card-title id="dialogTitle" class="text-h5 font-weight-300 mt-4">使用條款</v-card-title>
-            <v-card-text class="terms-text">
-                <p>在使用本查詢工具前，請仔細閱讀並同意以下條款：</p>
-                <ul>
-                    <li>本網站目前為1.5.2版本，未來更新或功能變更將可能對條款進行調整。</li>
-                    <li>本工具是一個獨立的第三方工具，並無存取或儲存任何學生資料。所有登錄操作實際上發生在學校校務系統中，本工具不會記錄任何用戶資料。</li>
-                    <li>我們重視您的隱私和數據安全，不會未經授權使用或分享您的個人信息。</li>
-                    <li>為保障服務品質和公平使用，本網站對查詢次數進行了合理限制。請根據您的實際需求合理安排查詢。</li>
-                    <li>所有查詢結果以學校校務系統提供的資料為準。由於調課等情況，查詢結果可能存在不準確性，請用戶自行核對。</li>
-                    <li>用戶有責任保護自己的帳號安全，不應將帳號信息泄露給他人，並應定期更換密碼。</li>
-                    <li>若無法登入，可能是由於多次登入嘗試導致校務系統暫時封鎖您的帳號，請稍後再試。</li>
-                    <li>若校方認為本服務影響學校伺服器的穩定性，或有任何安全疑慮，請通過郵件聯繫開發者進行處理：<a
-                            href="mailto:angelo0218@ajlo.org">angelo0218@ajlo.org</a>。</li>
-                    <li>本服務可能因維護、升級或其他技術原因而暫時中斷或終止，我們將盡力提前通知用戶。</li>
-                    <li>本項目是開源的，您可以在 GitHub 上查看源碼：<a href="https://github.com/Angelo0218/CyvsTool"
-                            target="_blank">https://github.com/Angelo0218/CyvsTool</a>。有關開源許可的詳細信息，請參考項目頁面上的說明。</li>
-                    <li>如在使用過程中發現任何錯誤或有改善建議，歡迎通過郵件（<a
-                            href="mailto:angelo0218@ajlo.org">angelo0218@ajlo.org</a>）或GitHub項目頁面提出反饋。</li>
-                </ul>
-                <h3 class="text-center"><strong>點擊同意表示您已閱讀並同意以上條款。</strong></h3>
+            <v-card-title id="dialogTitle" class="text-h5 font-weight-bold mt-4">使用者條款</v-card-title>
+            <v-card-text class="terms-text" style="font-size: 16px;">
+                <p>歡迎使用本查課缺曠系統(以下簡稱"本系統")。為了確保您能安全有效地使用本系統,請務必閱讀並同意遵守以下條款。一旦您開始使用本系統,即視為您已接受本條款的約束。</p>
+                <p><strong>網頁版本:</strong> 本使用者條款適用於本系統目前的1.5.3版網頁版本。</p>
+                <p><strong>服務內容:</strong>
+                    本系統為學生提供查詢課程缺曠記錄的工具,僅作為參考,不具有任何官方效力。查詢結果可能由於調課、批改等原因而與實際情況有所出入,請以學校官方渠道公布的資料為準。</p>
+                <p><strong>資料來源:</strong>
+                    本系統所使用的資料來自亞昕資訊股份有限公司為桃園市啟英高中(tyc.edu.tw)開發的校務系統。我們透過網路爬蟲技術從該系統獲取資料,未曾存取任何機密或非公開資料。</p>
+                <p><strong>隱私與安全:</strong>
+                    為避免觸碰個人資料及違反相關法令,本系統未內置任何個人身份資訊,使用者需自行輸入班級及年級等公開資訊。我們絕不會存取或記錄您的任何個人信息,所有查詢操作均在您的本機設備上進行。</p>
+                <p><strong>使用限制:</strong> 為確保系統暢順運行,本系統對查詢次數做出了合理限制。</p>
+                <p><strong>系統維護:</strong> 本系統由1人獨立維護,更新速度可能較慢,如有不便之處還請見諒。</p>
+                <p><strong>風險提示:</strong>
+                    若學校或亞昕資訊股份有限公司認為本系統可能會影響其系統安全穩定運作,或對本系統有其他安全疑慮,學校或有權採取適當的管控措施,例如限制或禁止使用本系統等。請您理解並配合學校的決定。您使用本系統的一切行為風險應由您自行承擔。
+                </p>
+                <p><strong>知識產權:</strong> 關於本系統的知識產權詳情，請參考GitHub上的條款：<a href="https://github.com/Angelo0218/CyvsTool"
+                        target="_blank">https://github.com/Angelo0218/CyvsTool</a>。</p>
+                <p><strong>版權所有:</strong> 本系統的版權歸Angelo0218個人及其團隊所有。</p>
+                <p><strong>條款變更:</strong> 開發者有權隨時修訂本條款,修訂後的條款一經公佈即生效。</p>
+                <p><strong>免責聲明:</strong> 開發者不對使用本系統直接或間接造成的任何損失承擔責任。</p>
+                <p><strong>法律適用:</strong> 本條款受中華民國相關法律管轄。</p>
+                <p><strong>服務中止權利:</strong> 開發者保留在特定情況下中止或終止部分或全部服務的權利。</p>
+                <p><strong>原始碼:</strong> 如想查看本系統的原始碼,請訪問GitHub專案。</p>
+                <p><strong>年齡限制:</strong> 年齡限制 本系統僅限年滿18歲的成年人使用。未成年人使用需在家長或監護人的同意和陪同下進行。</p>
             </v-card-text>
-
-
-            <v-card-actions class="justify-center " large>
+            <v-card-actions class="justify-center" style="flex-direction: column;">
+                <v-checkbox v-model="neverShowAgain" label="不再顯示此視窗" style="height:50px;"></v-checkbox>
                 <v-btn color="white" b class="custom-large-btn" @click="acceptTerms"
-                    style="font-size:large; background:#667054;">
+                    style="font-size: large; background: #667054; width: 100%;">
                     我已閲讀並同意以上條款
                 </v-btn>
             </v-card-actions>
         </v-card>
-
     </v-dialog>
+
+
 </template>
 
 <script>
-import { ref, onMounted, watch, defineAsyncComponent } from 'vue';
+import { ref, watch, defineAsyncComponent } from 'vue';
 
 const AbsenceDialog = defineAsyncComponent(() => import('@/components/AbsenceDialog.vue'));
 
@@ -104,6 +108,7 @@ export default {
         const email = ref(null);
         const password = ref(null);
         const showTermsDialog = ref(false);
+        const neverShowAgain = ref(false);
         const loading = ref(false);
         const showDialog = ref(false);
         const courseAbsences = ref({});
@@ -111,14 +116,21 @@ export default {
         const courseStatus = ref({});
         const termsDialog = ref(null);
 
+        const checkTerms = () => {
+            if (localStorage.getItem('neverShowTerms') !== 'true') {
+                showTermsDialog.value = true;
+            } else {
+                // 如果已同意條款，則直接提交表單
+                onSubmit();
+            }
+        };
+
+
         watch(showTermsDialog, (newVal) => {
             if (newVal) {
                 // 當對話框打開時
                 termsDialog.value.scrollTop = 0; // 將滾動條設置到頂部
             }
-        });
-        onMounted(() => {
-            showTermsDialog.value = true;
         });
 
         const onSubmit = async () => {
@@ -126,7 +138,7 @@ export default {
             loginError.value = false; // 重置登入錯誤信息
 
             try {
-                const response = await fetch('https://api/login', {
+                const response = await fetch('https://api.ajlo.org/cyvs', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -159,15 +171,19 @@ export default {
         };
 
         const acceptTerms = () => {
+            localStorage.setItem('neverShowTerms', neverShowAgain.value ? 'true' : 'false');
             showTermsDialog.value = false;
+            // 不再在此處直接調用 onSubmit 方法
         };
 
         return {
             email,
             password,
             showTermsDialog,
-            onSubmit,
+            neverShowAgain,
+            checkTerms,
             acceptTerms,
+            onSubmit,
             loading,
             showDialog,
             courseAbsences,
@@ -178,6 +194,7 @@ export default {
     }
 }
 </script>
+
 
 <style>
 h1,
@@ -306,4 +323,5 @@ a:hover {
 
 .footer-link:hover {
     color: #888888;
-}</style>
+}
+</style>

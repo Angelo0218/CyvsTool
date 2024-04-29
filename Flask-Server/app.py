@@ -170,7 +170,7 @@ def calculate_course_status(course_absences, total_classes):
         remaining_to_third = max(0, third_of_classes - total_absences)  # 計算距離三分之一還剩多少節課
         
         # 修改部分，只考慮曠課和事假的情況
-        total_absences_for_threshold = absences.get("曠", 0) + absences.get("事", 0)
+        total_absences_for_threshold = absences.get("曠", 0) + absences.get("事", 0) + absences.get("缺", 0)
         remaining_to_third = max(0, third_of_classes - total_absences_for_threshold)
 
         course_status[course] = {
@@ -233,3 +233,4 @@ async def login_and_fetch_data():
 
 if __name__ == '__main__':
     app.run()
+    
