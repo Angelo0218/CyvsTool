@@ -6,7 +6,7 @@ import aiohttp
 from bs4 import BeautifulSoup
 
 app = Quart(__name__)
-app = cors(app, allow_origin="*")
+app = cors(app, allow_origin="https://cyvstool.ajlo.org")
 
 
 async def fetch(session, url):
@@ -170,7 +170,7 @@ def calculate_course_status(course_absences, total_classes):
         remaining_to_third = max(0, third_of_classes - total_absences)  # 計算距離三分之一還剩多少節課
         
         # 修改部分，只考慮曠課和事假的情況
-        total_absences_for_threshold = absences.get("曠", 0) + absences.get("事", 0) + absences.get("缺", 0)
+        total_absences_for_threshold = absences.get("曠", 0) + absences.get("事", 0)
         remaining_to_third = max(0, third_of_classes - total_absences_for_threshold)
 
         course_status[course] = {

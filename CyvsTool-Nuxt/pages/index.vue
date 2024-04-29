@@ -27,7 +27,7 @@
 
 
             <h3 style="font-size: 0.8rem; font-weight: 500;text-align: center; margin-top: 10px;">
-                ※此工具並不會儲存用戶資料，如有疑慮可聯繫作者
+                ※此工具並不會儲存用戶資料，如有疑慮可<a href="mailto:angelo0218@ajlo.org">聯繫作者</a>
             </h3>
         </v-card>
     </v-sheet>

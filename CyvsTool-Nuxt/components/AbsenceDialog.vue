@@ -3,9 +3,9 @@
         <v-card>
             <v-card-title class="text-h5 font-weight-bold d-flex justify-content-between align-items-center">
                 缺曠記錄
-                <v-btn icon class="close-dialog-btn" @click="dialog = false">
+                <!-- <v-btn icon class="close-dialog-btn" @click="dialog = false">
                     <v-icon>mdi-close</v-icon>
-                </v-btn>
+                </v-btn> -->
             </v-card-title>
             <v-card-text>
                 <div class="records-explanation">
