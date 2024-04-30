@@ -1,11 +1,11 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="620px">
         <v-card>
-            <v-card-title class="text-h5 font-weight-bold d-flex justify-content-between align-items-center">
+            <v-card-title class="mt-4  text-h5 font-weight-bold d-flex justify-content-between align-items-center">
                 缺曠記錄
-                <!-- <v-btn icon class="close-dialog-btn" @click="dialog = false">
+                <v-btn icon class="close-dialog-btn" @click="dialog = false">
                     <v-icon>mdi-close</v-icon>
-                </v-btn> -->
+                </v-btn>
             </v-card-title>
             <v-card-text>
                 <div class="records-explanation">
@@ -43,6 +43,7 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
+   
 </template>
 
 
@@ -136,7 +137,6 @@ export default {
 <style>
 .close-dialog-btn {
     margin-top: -10px;
-    /* 根据需要调整按钮的垂直位置 */
 }
 
 .records-explanation {
@@ -201,6 +201,7 @@ export default {
     font-size: 0.8rem;
     font-weight: 400;
 }
+
 .d-flex {
     display: flex;
     justify-content: space-between;
@@ -209,7 +210,8 @@ export default {
 }
 
 .close-dialog-btn {
-    margin-right: -10px; /* 右边负边距调整按钮位置 */
+    margin-right: -10px;
+    /* 右边负边距调整按钮位置 */
     margin-top: 2px;
 }
 

