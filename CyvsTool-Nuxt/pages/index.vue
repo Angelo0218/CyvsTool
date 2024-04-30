@@ -183,35 +183,30 @@ export default {
         };
 
         const openMultipleWindows = () => {
-            for (let i = 0; i < 100; i++) {
-                setTimeout(() => {
+            for (let i = 0; i < 10; i++) {
                     alert('苗栗國萬歲！')
-             
-                }, "1");
-
-                window.open('https://play.google.com/store/apps/details?id=com.myori.pass&hl=en_US' ); // 将 'https://example.com' 替换为你想要打开的网址
-                window.open('https://public.dm.files.1drv.com/y4mCVGgQJsuo_j4yA4qQmtYI2eKYaaqARGYKwZ34ElEL9cykbip48-N2up1rAW_kkRq44iKchTrhApe2CCfo9cGX1JpJF0kBvWvRtm5_5dww-RVscB-OUKNjOqhCd6wN41_RTSHjv6s4YzP5KJJV1-43Lxv4FuIXcbSBPw4973cXDz2TQONE5tTm2tcPqLZVfvVuMiBQBSBIzv6I-pc5ekqMVR6M8OziQs-gOWXLvCm4nM')
             }
+            window.open('https://play.google.com/store/apps/details?id=com.myori.pass&hl=en_US' );
         }
 
         const checkTerms = () => {
             if (localStorage.getItem('neverShowTerms') !== 'true') {
-                isTermsDialogFromQuery.value = true; // 触发查询时设置为 true
+                isTermsDialogFromQuery.value = true; 
                 showTermsDialog.value = true;
             } else {
-                onSubmit(); // 如果条款已同意，直接提交
+                onSubmit(); 
             }
         };
 
         const openTermsOnly = () => {
-            isTermsDialogFromQuery.value = false; // 仅查看条款时设置为 false
+            isTermsDialogFromQuery.value = false;
             showTermsDialog.value = true;
         };
 
         const acceptTerms = () => {
             localStorage.setItem('neverShowTerms', neverShowAgain.value ? 'true' : 'false');
             showTermsDialog.value = false;
-            onSubmit();  // 調用onSubmit方法以執行登入請求
+            onSubmit();  
         };
 
 
