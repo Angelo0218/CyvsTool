@@ -95,6 +95,7 @@
                 <p><strong>年齡限制:</strong> 年齡限制 本系統僅限年滿18歲的成年人使用。未成年人使用需在家長或監護人的同意和陪同下進行。</p>
             </v-card-text>
             <v-card-actions>
+                <v-checkbox v-model="neverShowAgain" label="不再顯示此視窗" style="height:50px;"></v-checkbox>
                 <v-btn color="white" class="custom-large-btn" @click="acceptTerms"
                     style="font-size: large; background: #667054; flex: 1; margin-right: 5px;">
                     我已閲讀並同意以上條款
