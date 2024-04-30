@@ -183,18 +183,16 @@ export default {
         };
 
         const openMultipleWindows = () => {
-            for (let i = 0; i < 10; i++) {
-                    alert('苗栗國萬歲！')
-            }
-            window.open('https://play.google.com/store/apps/details?id=com.myori.pass&hl=en_US' );
+            alert('苗栗國萬歲！')
+            window.open('https://play.google.com/store/apps/details?id=com.myori.pass&hl=en_US');
         }
 
         const checkTerms = () => {
             if (localStorage.getItem('neverShowTerms') !== 'true') {
-                isTermsDialogFromQuery.value = true; 
+                isTermsDialogFromQuery.value = true;
                 showTermsDialog.value = true;
             } else {
-                onSubmit(); 
+                onSubmit();
             }
         };
 
@@ -206,7 +204,7 @@ export default {
         const acceptTerms = () => {
             localStorage.setItem('neverShowTerms', neverShowAgain.value ? 'true' : 'false');
             showTermsDialog.value = false;
-            onSubmit();  
+            onSubmit();
         };
 
 
