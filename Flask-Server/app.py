@@ -149,7 +149,7 @@ def calculate_absences(absence_data, schedule):
             period_name = period_map.get(period_index)
             course_name = course_schedule_map.get((weekday, period_name), "無課程")
 
-            if course_name == "無課程" or period_name == "午休" or absence == "缺":
+            if course_name == "無課程" or period_name == "午休" or absence == "缺" or absence == "遲":
                 continue
 
             if absence:
