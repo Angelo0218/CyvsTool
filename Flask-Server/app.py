@@ -6,7 +6,7 @@ import aiohttp
 from bs4 import BeautifulSoup
 
 app = Quart(__name__)
-app = cors(app, allow_origin="https://cyvstool.ajlo.org")
+app = cors(app, allow_origin="*")
 
 
 async def fetch(session, url):
@@ -41,16 +41,14 @@ async def parse_absence_data(html):
 
 # 定义解析课表信息的函数
 def parse_time_string(teach_time):
-    # 移除"每週:"这部分并分割每个时间段
     time_slots = teach_time.replace("每週:", "").split(',')
-    # 解析每个时间段
     parsed_slots = []
     for slot in time_slots:
         try:
             day, period = map(int, slot.split('-'))
             parsed_slots.append((day, period))
         except ValueError:
-            continue  # 如果解析错误，跳过这个时间段
+            continue 
     return parsed_slots
 
 async def parse_schedule_data(html):
@@ -151,7 +149,7 @@ def calculate_absences(absence_data, schedule):
             period_name = period_map.get(period_index)
             course_name = course_schedule_map.get((weekday, period_name), "無課程")
 
-            if course_name == "無課程" or period_name == "午休":
+            if course_name == "無課程" or period_name == "午休" or absence == "缺":
                 continue
 
             if absence:
@@ -169,7 +167,7 @@ def calculate_course_status(course_absences, total_classes):
         third_of_classes = total // 3
         remaining_to_third = max(0, third_of_classes - total_absences)  # 計算距離三分之一還剩多少節課
         
-        # 修改部分，只考慮曠課和事假的情況
+        # 只考慮曠課和事假的情況
         total_absences_for_threshold = absences.get("曠", 0) + absences.get("事", 0)
         remaining_to_third = max(0, third_of_classes - total_absences_for_threshold)
 

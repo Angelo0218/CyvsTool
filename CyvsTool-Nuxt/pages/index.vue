@@ -17,7 +17,7 @@
                     type="password" required></v-text-field>
 
                 <v-btn :disabled="!email || !password || loading" :loading="loading" block color="#667054" size="large"
-                    type="submit" aria-label="查詢" @click="checkTerms">
+                   aria-label="查詢" @click="checkTerms">
                     查詢
                 </v-btn>
 
@@ -94,22 +94,22 @@
                 <p><strong>原始碼:</strong> 如想查看本系統的原始碼,請訪問GitHub專案。</p>
                 <p><strong>年齡限制:</strong> 年齡限制 本系統僅限年滿18歲的成年人使用。未成年人使用需在家長或監護人的同意和陪同下進行。</p>
             </v-card-text>
-            <v-checkbox v-model="neverShowAgain" label="不再顯示此視窗" style="margin-left: 35%;"> </v-checkbox>
-            <v-card-actions>
-               
+
+            <v-checkbox v-if="isTermsDialogInteractive" v-model="neverShowAgain" label="不再顯示此視窗" style="margin:auto; ">
+            </v-checkbox>
+            <v-card-actions v-if="isTermsDialogInteractive" style="margin-top:-20px">
                 <v-btn color="white" class="custom-large-btn" @click="acceptTerms"
                     style="font-size: large; background: #667054; flex: 1; margin-right: 5px;">
                     我已閲讀並同意以上
                 </v-btn>
-
-                <a @click="openMultipleWindows" href="
-" target="_self">
+                <a @click="openMultipleWindows" target="_self">
                     <v-btn color="white" class="custom-large-btn"
                         style="font-size: large; background: #667054; flex: 1; margin-left: 5px;">
                         不同意
                     </v-btn>
                 </a>
             </v-card-actions>
+
         </v-card>
     </v-dialog>
 
@@ -136,6 +136,7 @@ export default {
         const courseStatus = ref({});
         const termsDialog = ref(null);
         const isTermsDialogFromQuery = ref(false);
+        const isTermsDialogInteractive = ref(false);
 
         watch(showTermsDialog, (newVal) => {
             if (newVal) {
@@ -190,24 +191,26 @@ export default {
         }
 
         const checkTerms = () => {
-            if (localStorage.getItem('neverShowTerms') !== 'true') {
-                isTermsDialogFromQuery.value = true;
-                showTermsDialog.value = true;
+            if (localStorage.getItem('neverShowTerms') === 'true' || neverShowAgain.value) {
+                onSubmit();  // 已同意條款，直接提交
             } else {
-                onSubmit();
+                isTermsDialogInteractive.value = true;  // 需要顯示條款對話框
+                showTermsDialog.value = true;
             }
         };
 
+
         const openTermsOnly = () => {
-            isTermsDialogFromQuery.value = false;
+            isTermsDialogInteractive.value = false;  // 設置為非互動式對話框
             showTermsDialog.value = true;
         };
 
         const acceptTerms = () => {
             localStorage.setItem('neverShowTerms', neverShowAgain.value ? 'true' : 'false');
             showTermsDialog.value = false;
-            onSubmit();
+            onSubmit();  // 同意條款後提交表單
         };
+
 
 
         return {
@@ -225,7 +228,9 @@ export default {
             courseStatus,
             termsDialog,
             openTermsOnly,
-            openMultipleWindows
+            openMultipleWindows,
+            isTermsDialogInteractive,
+            isTermsDialogInteractive
         };
     }
 }
