@@ -6,7 +6,7 @@ import aiohttp
 from bs4 import BeautifulSoup
 
 app = Quart(__name__)
-app = cors(app, allow_origin="*")
+app = cors(app, allow_origin="https://cyvstool.ajlo.org")
 
 
 async def fetch(session, url):
