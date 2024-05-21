@@ -168,7 +168,7 @@ export default {
                     if (response.status === 401) {
                         throw new Error('登入失敗：使用者名稱或密碼錯誤');
                     } else {
-                        throw new Error('學校校務系統目前發生錯誤，請稍後再嘗試。');
+                        throw new Error('媽的，學校校務系統又掛掉了，請稍後再試。如果還是有問題，通知開發者。');
                     }
                 }
 
