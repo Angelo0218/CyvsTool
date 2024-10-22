@@ -2,7 +2,7 @@
 
 ## 示範網站
 
--[啟英高中缺曠課查詢工具](https://cyvstool.ajlo.org/)-
+～～[啟英高中缺曠課查詢工具](https://cyvstool.ajlo.org/)～～ 停止維護
 
 ## 功能介紹
 
